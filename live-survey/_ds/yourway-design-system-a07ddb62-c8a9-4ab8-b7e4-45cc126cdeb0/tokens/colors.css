@@ -1,0 +1,124 @@
+/* Yourway Color Tokens */
+:root {
+  /* === PRIMARY: Trustworthy Blue === */
+  --color-blue-50: #F3F5FF;
+  --color-blue-100: #C4CEF7;
+  --color-blue-200: #A8B6F4;
+  --color-blue-300: #8094EE;
+  --color-blue-400: #6880EB;
+  --color-blue-500: #4260E6;
+  --color-blue-600: #3C57D1;
+  --color-blue-700: #2F44A3;
+  --color-blue-800: #24357F;
+  --color-blue-900: #1C2861;
+
+  /* === PRIMARY: Smart Blue === */
+  --color-smart-blue-50: #E7EAF2;
+  --color-smart-blue-100: #B6BFD6;
+  --color-smart-blue-200: #92A0C3;
+  --color-smart-blue-300: #6075A7;
+  --color-smart-blue-400: #415A96;
+  --color-smart-blue-500: #12317C;
+  --color-smart-blue-600: #102D71;
+  --color-smart-blue-700: #0D2358;
+  --color-smart-blue-800: #0A1B44;
+  --color-smart-blue-900: #081534;
+
+  /* === NEUTRAL: Relatable Gray === */
+  --color-gray-50: #E9E9E9;
+  --color-gray-100: #B9BBBC;
+  --color-gray-200: #989A9C;
+  --color-gray-300: #686C6E;
+  --color-gray-400: #4B4F52;
+  --color-gray-500: #1E2327;
+  --color-gray-600: #1B2023;
+  --color-gray-700: #15191C;
+  --color-gray-800: #111315;
+  --color-gray-900: #0D0F10;
+
+  /* === NEUTRAL: Expansive White === */
+  --color-white: #FFFFFF;
+  --color-off-white: #F2F2F2;
+
+  /* === ACCENT: Creative Purple === */
+  --color-purple-50: #F5EFFB;
+  --color-purple-100: #E0CEF4;
+  --color-purple-200: #D1B6EE;
+  --color-purple-300: #BD95E6;
+  --color-purple-400: #B081E1;
+  --color-purple-500: #9C61DA;
+  --color-purple-600: #8E58C6;
+  --color-purple-700: #6F459B;
+  --color-purple-800: #563578;
+  --color-purple-900: #42295C;
+
+  /* === ACCENT: Companion Pink === */
+  --color-pink-50: #FAEFF8;
+  --color-pink-500: #CD60B5;
+
+  /* === ACCENT: Inspiring Red === */
+  --color-red-50: #FFEFF0;
+  --color-red-500: #FA606A;
+  --color-red-600: #E45760;
+
+  /* === ACCENT: Exciting Orange === */
+  --color-orange-50: #FEF5EF;
+  --color-orange-500: #F19F5A;
+
+  /* === ACCENT: Approachable Yellow === */
+  --color-yellow-50: #FEFBEE;
+  --color-yellow-100: #FDF1CA;
+  --color-yellow-500: #F9D354;
+  --color-yellow-600: #E3C04C;
+
+  /* === ACCENT: Helpful Green === */
+  --color-green-50: #F6FBF3;
+  --color-green-100: #E2F3DA;
+  --color-green-500: #A1D788;
+
+  /* === ACCENT: Gleeful Green === */
+  --color-gleeful-50: #F4F9EC;
+  --color-gleeful-500: #8EC73F;
+  --color-gleeful-800: #4E6D23;
+
+  /* === SEMANTIC === */
+  --color-success: #A1D788;
+  --color-alert: #F9D354;
+  --color-error: #FA606A;
+  --color-info: #4260E6;
+
+  /* === BACKGROUNDS === */
+  --color-bg-app: #F4F6FB;
+  --color-bg-dark: #1E2327;
+  --color-bg-section: #F2F5FE;
+  --color-bg-header: #FCFDFF;
+  --color-bg-disabled: #D7DCE0;
+
+  /* === TEXT === */
+  --color-text-high: #1E2327;
+  --color-text-medium: #4B4F52;
+  --color-text-low: #686C6E;
+  --color-text-dark-high: #F1F2F4;
+  --color-text-dark-medium: #A3AFB8;
+  --color-text-disabled: #8998A4;
+
+  /* === SURFACE === */
+  --color-surface-card: #FFFFFF;
+  --color-surface-sidebar: #FFFFFF;
+  --color-surface-header: #FFFFFF;
+
+  /* === BORDER === */
+  --color-border: #D7DCE0;
+  --color-border-light: #E9E9E9;
+
+  /* === AVATAR === */
+  --color-avatar-bg: #E8ECFC;
+  --color-avatar-fg: #C0CAF7;
+
+  /* === SEMANTIC ALIASES === */
+  --color-primary: var(--color-blue-500);
+  --color-primary-hover: var(--color-blue-600);
+  --color-primary-light: var(--color-blue-50);
+  --color-pro: var(--color-yellow-500);
+  --color-pro-hover: var(--color-yellow-600);
+}
