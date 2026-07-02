@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yourway Survey Admin</title>
+  <link rel="stylesheet" href="_ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/tokens/colors.css">
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:var(--color-bg-app,#F4F6FB);color:var(--color-smart-blue-500,#12317C);font-family:'Rubik',system-ui,sans-serif}
+    button,input{font:inherit}
+    .shell{max-width:1180px;margin:0 auto;padding:34px 28px 60px}
+    .top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;margin-bottom:24px}
+    h1{font-size:34px;line-height:1.05;margin:0;font-weight:800}
+    .muted{color:var(--color-text-medium,#5F6675)}
+    .panel{background:#fff;border:1px solid rgba(18,49,124,.1);border-radius:8px;box-shadow:0 10px 30px -24px rgba(18,49,124,.45)}
+    .auth{display:grid;grid-template-columns:minmax(260px,1fr) auto;gap:10px;padding:16px;margin-bottom:18px}
+    .create{display:grid;grid-template-columns:minmax(260px,1fr) auto;gap:10px;padding:16px;margin-bottom:18px}
+    input{width:100%;border:2px solid var(--color-border,#D9DEE8);border-radius:8px;padding:13px 14px;color:var(--color-smart-blue-500,#12317C);background:#fff}
+    input:focus{outline:none;border-color:var(--color-blue-500,#4260E6)}
+    button{border:0;border-radius:8px;padding:13px 16px;font-weight:800;cursor:pointer;background:var(--color-blue-500,#4260E6);color:#fff;white-space:nowrap}
+    button.secondary{background:#fff;color:var(--color-blue-500,#4260E6);border:2px solid var(--color-blue-500,#4260E6);padding:11px 14px}
+    button.danger{background:#fff;color:#B42318;border:2px solid #F4B7B0;padding:11px 14px}
+    button:disabled{cursor:not-allowed;opacity:.45}
+    .status{min-height:20px;font-size:14px;font-weight:700;margin:8px 2px 18px;color:var(--color-text-medium,#5F6675)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+    .session{padding:16px}
+    .session-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .session h2{font-size:21px;line-height:1.1;margin:0;font-weight:800}
+    .badge{display:inline-flex;align-items:center;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;background:#EDF8E9;color:#2F6E1E}
+    .badge.stopped{background:#FFF1F0;color:#B42318}
+    .metric{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+    .metric div{background:var(--color-bg-section,#F7F8FC);border-radius:8px;padding:11px}
+    .metric b{display:block;font-size:24px;line-height:1}
+    .metric span{display:block;font-size:12px;font-weight:700;color:var(--color-text-low,#7C8494);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+    .bars{display:flex;flex-direction:column;gap:8px;margin:13px 0 15px}
+    .bar{display:grid;grid-template-columns:74px 1fr 34px;align-items:center;gap:8px;font-size:13px;font-weight:800}
+    .track{height:10px;border-radius:5px;background:#E9EDF5;overflow:hidden}
+    .fill{height:100%;border-radius:5px;background:var(--color-blue-500,#4260E6)}
+    .links{display:flex;flex-direction:column;gap:7px;margin:10px 0 14px}
+    .links a{color:var(--color-blue-500,#4260E6);font-size:13px;font-weight:700;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .actions{display:flex;flex-wrap:wrap;gap:8px}
+    .empty{padding:26px;text-align:center;color:var(--color-text-medium,#5F6675);font-weight:700}
+    @media(max-width:720px){.top,.auth,.create{grid-template-columns:1fr}.top{display:block}.shell{padding:24px 16px}.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="top">
+      <div>
+        <h1>Survey Admin</h1>
+        <div class="muted" style="margin-top:8px;font-weight:600;">Create live sessions, manage access, and monitor results.</div>
+      </div>
+      <a href="/s/main" class="muted" style="font-weight:800;text-decoration:none;">Open main board</a>
+    </div>
+
+    <section class="panel auth">
+      <input id="email" type="email" placeholder="admin@yourwaylearning.com" autocomplete="email">
+      <button id="saveEmail">Use admin email</button>
+    </section>
+
+    <section class="panel create">
+      <input id="sessionName" placeholder="Session name">
+      <button id="createSession">Create session</button>
+    </section>
+
+    <div id="status" class="status"></div>
+    <section id="sessions" class="grid"></section>
+  </main>
+
+  <script>
+    const colors = {
+      tico:'#FA606A', bobbi:'#9C61DA', mugsy:'#8EC73F', axel:'#4260E6',
+      cherrylu:'#CD60B5', nova:'#F9D354', marsha:'#F19F5A', pip:'#A1D788'
+    };
+    const labels = {
+      tico:'Tico', bobbi:'Bobbi', mugsy:'Mugsy', axel:'Axel',
+      cherrylu:'CherryLu', nova:'Nova', marsha:'Marsha', pip:'Pip'
+    };
+    const ids = Object.keys(labels);
+    const emailInput = document.getElementById('email');
+    const nameInput = document.getElementById('sessionName');
+    const statusEl = document.getElementById('status');
+    const sessionsEl = document.getElementById('sessions');
+
+    emailInput.value = localStorage.getItem('yw_admin_email') || '';
+    document.getElementById('saveEmail').addEventListener('click', () => {
+      const email = emailInput.value.trim().toLowerCase();
+      if (!email.endsWith('@yourwaylearning.com')) {
+        setStatus('Use an email ending in @yourwaylearning.com.');
+        return;
+      }
+      localStorage.setItem('yw_admin_email', email);
+      setStatus('Admin email saved.');
+      loadSessions();
+    });
+    document.getElementById('createSession').addEventListener('click', createSession);
+
+    function adminEmail() {
+      return (emailInput.value || localStorage.getItem('yw_admin_email') || '').trim().toLowerCase();
+    }
+
+    function headers() {
+      return { 'Content-Type':'application/json', 'X-Admin-Email': adminEmail() };
+    }
+
+    function setStatus(message, isError) {
+      statusEl.textContent = message || '';
+      statusEl.style.color = isError ? '#B42318' : 'var(--color-text-medium,#5F6675)';
+    }
+
+    async function request(url, options = {}) {
+      const response = await fetch(url, { ...options, headers: { ...headers(), ...(options.headers || {}) } });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || 'Request failed');
+      return data;
+    }
+
+    async function createSession() {
+      try {
+        const session = await request('/api/admin/sessions', {
+          method:'POST',
+          body: JSON.stringify({ name: nameInput.value.trim() })
+        });
+        nameInput.value = '';
+        setStatus(`Created ${session.name}.`);
+        await loadSessions();
+      } catch (error) {
+        setStatus(error.message, true);
+      }
+    }
+
+    async function stopSession(id) {
+      try {
+        await request(`/api/admin/sessions/${encodeURIComponent(id)}/stop`, { method:'POST' });
+        setStatus('Session stopped.');
+        await loadSessions();
+      } catch (error) {
+        setStatus(error.message, true);
+      }
+    }
+
+    async function deleteSession(id) {
+      if (!confirm('Delete this session?')) return;
+      try {
+        await request(`/api/admin/sessions/${encodeURIComponent(id)}`, { method:'DELETE' });
+        setStatus('Session deleted.');
+        await loadSessions();
+      } catch (error) {
+        setStatus(error.message, true);
+      }
+    }
+
+    async function loadSessions() {
+      if (!adminEmail().endsWith('@yourwaylearning.com')) {
+        sessionsEl.innerHTML = '<div class="panel empty">Enter a Yourway admin email to manage sessions.</div>';
+        return;
+      }
+      try {
+        const sessions = await request('/api/admin/sessions');
+        renderSessions(sessions);
+      } catch (error) {
+        sessionsEl.innerHTML = '<div class="panel empty">Enter a valid Yourway admin email to continue.</div>';
+        setStatus(error.message, true);
+      }
+    }
+
+    function renderSessions(sessions) {
+      if (!sessions.length) {
+        sessionsEl.innerHTML = '<div class="panel empty">No sessions yet.</div>';
+        return;
+      }
+      sessionsEl.innerHTML = sessions.map(renderSession).join('');
+      sessionsEl.querySelectorAll('[data-stop]').forEach((button) => {
+        button.addEventListener('click', () => stopSession(button.dataset.stop));
+      });
+      sessionsEl.querySelectorAll('[data-delete]').forEach((button) => {
+        button.addEventListener('click', () => deleteSession(button.dataset.delete));
+      });
+    }
+
+    function renderSession(session) {
+      const max = Math.max(1, ...ids.map((id) => session.votes[id] || 0));
+      const bars = ids.map((id) => {
+        const count = session.votes[id] || 0;
+        const pct = session.total ? Math.round(count / session.total * 100) : 0;
+        return `<div class="bar"><span>${labels[id]}</span><div class="track"><div class="fill" style="width:${count / max * 100}%;background:${colors[id]}"></div></div><span>${pct}%</span></div>`;
+      }).join('');
+      return `<article class="panel session">
+        <div class="session-head">
+          <div>
+            <h2>${escapeHtml(session.name)}</h2>
+            <div class="muted" style="font-size:12px;margin-top:4px;">${new Date(session.createdAt).toLocaleString()}</div>
+          </div>
+          <span class="badge ${session.isStopped ? 'stopped' : ''}">${session.isStopped ? 'Stopped' : 'Live'}</span>
+        </div>
+        <div class="metric">
+          <div><b>${session.total}</b><span>Responses</span></div>
+          <div><b>${session.leaderName || '-'}</b><span>Leader</span></div>
+        </div>
+        <div class="bars">${bars}</div>
+        <div class="links">
+          <a href="${session.boardUrl}" target="_blank" rel="noreferrer">Board: ${session.boardUrl}</a>
+          <a href="${session.surveyUrl}" target="_blank" rel="noreferrer">Survey: ${session.surveyUrl}</a>
+        </div>
+        <div class="actions">
+          <button class="secondary" data-stop="${session.id}" ${session.isStopped ? 'disabled' : ''}>Stop session</button>
+          <button class="danger" data-delete="${session.id}">Delete</button>
+        </div>
+      </article>`;
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({
+        '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;'
+      }[char]));
+    }
+
+    loadSessions();
+    setInterval(loadSessions, 2500);
+  </script>
+</body>
+</html>
