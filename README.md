@@ -61,12 +61,15 @@ This project is now a Next.js app and can be deployed to v0/Vercel-style hosting
 Typical deployment settings:
 
 ```txt
+Root directory: ./
 Install command: npm install
 Build command: npm run build
 Start command: npm run start
 ```
 
 On Vercel, the framework should be detected as Next.js automatically.
+
+If v0 shows `Could not find a Next.js root layout to patch` or `Script not found "build"`, make sure the project root is the folder that contains `package.json`, `app/layout.js`, and `vercel.json`. Do not set the root directory to `live-survey/`.
 
 ## Supabase Storage
 
