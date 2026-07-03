@@ -504,14 +504,14 @@ class Component extends DCLogic {
       .catch(() => {});
   }
 
-  addVote(id, flash){
+  addVote(id, flash, details){
     if(flash === undefined) flash = true;
     if(this.props.confettiOnVote === false) flash = false;
     if(this.state.liveServer && !this.state.isStopped){
       fetch(this.apiBase() + '/vote', {
         method:'POST',
         headers:{ 'Content-Type':'application/json' },
-        body: JSON.stringify({ id })
+        body: JSON.stringify({ id, ...(details || {}) })
       })
         .then(r => r.ok ? r.json() : null)
         .then(payload => { if(payload) this.setState({ votes: payload.votes || payload, isStopped: !!payload.isStopped, stoppedAt: payload.stoppedAt || null, recent: flash ? id : this.state.recent }); })
@@ -571,7 +571,12 @@ class Component extends DCLogic {
     );
     const primary = ranked[0];
     const secondary = ranked[1] || null;
-    this.addVote(primary, false); // dashboard counts only the primary
+    this.addVote(primary, false, {
+      secondaryId: secondary,
+      role: this.state.role,
+      scores,
+      answers: answers.map(a => ({ label:a.label, char:a.char, weight:a.weight }))
+    }); // dashboard counts only the primary
     this.setState({ answers, scores, primaryId:primary, secondaryId:secondary, selected:primary, step:'done', recent:primary });
     clearTimeout(this._recT);
     this._recT = setTimeout(() => this.setState({ recent:null }), 1100);

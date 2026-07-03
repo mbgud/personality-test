@@ -7,8 +7,8 @@ export async function POST(request, { params }) {
     return Response.json({ error: "Admin email must use @yourwaylearning.com" }, { status: 403 });
   }
   const { id } = await params;
-  const session = getSession(id);
+  const session = await getSession(id);
   if (!session) return Response.json({ error: "Session not found" }, { status: 404 });
-  resetSession(session);
-  return Response.json(votePayload(session));
+  const updated = await resetSession(session);
+  return Response.json(votePayload(updated));
 }

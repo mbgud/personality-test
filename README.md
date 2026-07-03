@@ -68,6 +68,22 @@ Start command: npm run start
 
 On Vercel, the framework should be detected as Next.js automatically.
 
+## Supabase Storage
+
+For deployed surveys, use Supabase so sessions, votes, and response records survive restarts and work across serverless instances.
+
+1. Create a Supabase project.
+2. Open the Supabase SQL editor.
+3. Run the SQL in `supabase/schema.sql`.
+4. Add these environment variables to your deployment:
+
+```txt
+SUPABASE_URL=https://YOUR_PROJECT.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVICE_ROLE_KEY
+```
+
+Keep `SUPABASE_SERVICE_ROLE_KEY` server-only. Do not expose it in browser code or use a `NEXT_PUBLIC_` prefix.
+
 ## Admin Dashboard
 
 Open:
@@ -148,15 +164,19 @@ PUBLIC_BASE_URL=https://YOUR_DOMAIN npm run start
 
 ## Data Storage
 
-Session data and votes are currently stored in server memory. Restarting the server resets sessions back to the default `main` session.
+When `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are set, session data is stored in Supabase:
 
-For production or long-running events, add persistent storage before relying on this for historical results. Serverless hosts may also create more than one runtime instance, so use a shared store such as Redis/Vercel KV if results need to be durable across instances.
+- `survey_sessions` stores each dashboard/session, stop state, and current vote totals.
+- `survey_responses` stores each submitted survey as an individual response row, including primary result, backed-by result, role, scores, and answer choices.
+
+If the Supabase variables are not set, the app falls back to server memory for local demos. In-memory data resets when the server restarts and should not be used for production events.
 
 ## Main Files
 
 - `app/` - Next.js pages and API route handlers used for deployment.
-- `lib/sessions.js` - Shared in-memory session store used by Next routes.
+- `lib/sessions.js` - Shared session storage used by Next routes. Uses Supabase when configured, otherwise local memory.
 - `live-survey/server.js` - Legacy local HTTP server.
 - `live-survey/admin.html` - Admin session manager.
 - `live-survey/Live Survey.dc.html` - Presenter board and participant survey experience.
 - `live-survey/quiz-data.js` - Personality quiz questions and scoring data.
+- `supabase/schema.sql` - Database schema for persistent survey storage.

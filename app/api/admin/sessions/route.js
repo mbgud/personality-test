@@ -6,7 +6,8 @@ export async function GET(request) {
   if (!requireAdmin(request)) {
     return Response.json({ error: "Admin email must use @yourwaylearning.com" }, { status: 403 });
   }
-  return Response.json(listSessions().map((session) => sessionSummary(session, request)));
+  const sessions = await listSessions();
+  return Response.json(sessions.map((session) => sessionSummary(session, request)));
 }
 
 export async function POST(request) {
@@ -15,6 +16,6 @@ export async function POST(request) {
     return Response.json({ error: "Admin email must use @yourwaylearning.com" }, { status: 403 });
   }
   const body = await request.json().catch(() => ({}));
-  const session = createSession({ name: body.name, adminEmail });
+  const session = await createSession({ name: body.name, adminEmail });
   return Response.json(sessionSummary(session, request), { status: 201 });
 }
