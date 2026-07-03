@@ -1,8 +1,14 @@
 {
   "scripts": {
-    "start": "node live-survey/server.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "start:legacy": "node live-survey/server.js"
   },
   "dependencies": {
-    "qrcode": "^1.5.4"
+    "next": "^16.2.10",
+    "qrcode": "^1.5.4",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   }
 }

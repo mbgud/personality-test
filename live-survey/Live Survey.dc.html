@@ -401,6 +401,7 @@ class Component extends DCLogic {
     window.removeEventListener('touchstart', this._boardActivity);
     window.removeEventListener('keydown', this._boardActivity);
     if(this._events) this._events.close();
+    clearInterval(this._pollVotes);
     clearInterval(this._amb);
     clearInterval(this._word);
     clearTimeout(this._recT);
@@ -482,7 +483,23 @@ class Component extends DCLogic {
               this.setState({ votes: payload.votes || payload, liveServer:true, isStopped: !!payload.isStopped, stoppedAt: payload.stoppedAt || null });
             } catch(e){}
           };
+          this._events.onerror = () => {
+            try { this._events.close(); } catch(e){}
+            this._events = null;
+          };
         }
+        clearInterval(this._pollVotes);
+        this._pollVotes = setInterval(() => this.pollVotes(), 2500);
+      })
+      .catch(() => {});
+  }
+
+  pollVotes(){
+    if(!this.state.liveServer) return;
+    fetch(this.apiBase() + '/votes', { cache:'no-store' })
+      .then(r => r.ok ? r.json() : null)
+      .then(payload => {
+        if(payload) this.setState({ votes: payload.votes || payload, isStopped: !!payload.isStopped, stoppedAt: payload.stoppedAt || null });
       })
       .catch(() => {});
   }
