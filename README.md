@@ -73,6 +73,12 @@ If v0 shows `Could not find a Next.js root layout to patch` or `Script not found
 
 If a board link opens as `Not found` in v0, redeploy this latest version. Public board and survey routes now create a missing session shell automatically. For real events, still configure Supabase so sessions created in the admin dashboard persist across serverless instances and deployments.
 
+After deployment, open `/api/health`. A healthy production setup should return `"storage":"supabase"` and `"ok":true`. If it returns `"storage":"memory"`, the Supabase environment variables are missing. If it returns an error, rerun `supabase/schema.sql` in Supabase and redeploy.
+
+If created session links open a Vercel/v0 "Deployment not found" page, `PUBLIC_BASE_URL` is pointing to the wrong deployment. Either remove `PUBLIC_BASE_URL` so the app uses the current request host, or set it to the exact production domain with no trailing slash.
+
+If images do not load in Vercel/v0, make sure the real `live-survey/uploads` image files are committed. This repo should not use Git LFS for `.png` or `.gif` assets, because deployments can receive pointer files instead of the actual images.
+
 ## Supabase Storage
 
 For deployed surveys, use Supabase so sessions, votes, and response records survive restarts and work across serverless instances.

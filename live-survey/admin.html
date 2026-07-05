@@ -181,6 +181,8 @@
     }
 
     function renderSession(session) {
+      const boardPath = `/s/${encodeURIComponent(session.id)}`;
+      const surveyPath = `${boardPath}?view=survey`;
       const max = Math.max(1, ...ids.map((id) => session.votes[id] || 0));
       const bars = ids.map((id) => {
         const count = session.votes[id] || 0;
@@ -201,8 +203,8 @@
         </div>
         <div class="bars">${bars}</div>
         <div class="links">
-          <a href="${session.boardUrl}" target="_blank" rel="noreferrer">Board: ${session.boardUrl}</a>
-          <a href="${session.surveyUrl}" target="_blank" rel="noreferrer">Survey: ${session.surveyUrl}</a>
+          <a href="${boardPath}" target="_blank" rel="noreferrer">Board: ${session.boardUrl}</a>
+          <a href="${surveyPath}" target="_blank" rel="noreferrer">Survey: ${session.surveyUrl}</a>
         </div>
         <div class="actions">
           <button class="secondary" data-stop="${session.id}" ${session.isStopped ? 'disabled' : ''}>Stop session</button>
