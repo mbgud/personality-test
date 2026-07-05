@@ -600,8 +600,11 @@ class Component extends DCLogic {
 
   surveyUrl(){
     try {
-      const base = this.state.publicBaseUrl || location.origin;
-      return base + '/s/' + encodeURIComponent(this.state.sessionId || 'main') + '?view=survey';
+      const path = '/s/' + encodeURIComponent(this.state.sessionId || 'main') + '?view=survey';
+      const origin = location.origin;
+      const local = /^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)(:\d+)?$/i.test(origin) || location.protocol === 'file:';
+      const base = local && this.state.publicBaseUrl ? this.state.publicBaseUrl : origin;
+      return base.replace(/\/$/, '') + path;
     } catch(e){ return '?view=survey'; }
   }
 
