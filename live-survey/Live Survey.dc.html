@@ -163,7 +163,7 @@
 
       <sc-if value="{{ isStopped }}" hint-placeholder-val="{{ false }}">
       <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px 28px;animation:ywPop .4s ease-out;">
-        <img src="uploads/Nova_celebration.gif" alt="" style="width:118px;height:118px;object-fit:contain;margin-bottom:14px;">
+        <img src="/uploads/Nova_celebration.gif" onerror="this.onerror=null;this.src='/uploads/Nova.png';" alt="" style="width:118px;height:118px;object-fit:contain;margin-bottom:14px;">
         <div style="font-size:15px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--color-blue-500);">Survey closed</div>
         <h1 style="font-size:34px;font-weight:800;line-height:1.08;color:var(--color-smart-blue-500);text-align:center;margin:8px 0 0;">Thanks for joining</h1>
         <p style="font-size:16px;line-height:1.45;color:var(--color-text-medium);text-align:center;margin:12px 0 0;">This live survey session has ended.</p>
@@ -174,9 +174,9 @@
       <sc-if value="{{ isIntroActive }}" hint-placeholder-val="{{ true }}">
       <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:30px 26px 36px;overflow-y:auto;min-height:0;animation:ywPop .4s ease-out;">
         <div style="display:flex;justify-content:center;gap:6px;margin-bottom:6px;">
-          <img src="uploads/Nova_celebration.gif" alt="" style="width:84px;height:84px;object-fit:contain;">
-          <img src="uploads/Mugsy_celebration.gif" alt="" style="width:84px;height:84px;object-fit:contain;margin-top:14px;">
-          <img src="uploads/CherryLu_celebration.gif" alt="" style="width:84px;height:84px;object-fit:contain;">
+          <img src="/uploads/Nova_celebration.gif" onerror="this.onerror=null;this.src='/uploads/Nova.png';" alt="" style="width:84px;height:84px;object-fit:contain;">
+          <img src="/uploads/Mugsy_celebration.gif" onerror="this.onerror=null;this.src='/uploads/Mugsy.png';" alt="" style="width:84px;height:84px;object-fit:contain;margin-top:14px;">
+          <img src="/uploads/CherryLu_celebration.gif" onerror="this.onerror=null;this.src='/uploads/Cherry%20Lu.png';" alt="" style="width:84px;height:84px;object-fit:contain;">
         </div>
         <div style="font-size:15px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--color-blue-500);text-align:center;">Yourway poll</div>
         <h1 style="font-size:38px;font-weight:800;line-height:1.08;letter-spacing:-.02em;color:var(--color-smart-blue-500);text-align:center;margin:8px 0 0;">{{ questionText }}</h1>
@@ -312,7 +312,6 @@
   <div onMouseEnter="{{ onDockEnter }}" onMouseLeave="{{ onDockLeave }}" onFocus="{{ onDockEnter }}" onBlur="{{ onDockLeave }}" style="{{ dockStyle }}">
       <button onClick="{{ goDashboard }}" style="border:none;border-radius:var(--radius-full);padding:9px 18px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;background:#fff;color:#1E2327;transition:all .15s ease;">Board</button>
       <button onClick="{{ goSurvey }}" style="border:none;border-radius:var(--radius-full);padding:9px 18px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;background:transparent;color:rgba(255,255,255,.82);transition:all .15s ease;">Survey</button>
-    <button onClick="{{ openSurvey }}" title="Open the participant survey in a new tab" style="border:none;border-radius:var(--radius-full);padding:9px 16px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;background:transparent;color:rgba(255,255,255,.82);transition:color .15s ease;" style-hover="color:#fff;">Open survey ↗</button>
     <span style="width:1px;height:20px;background:rgba(255,255,255,.18);"></span>
     <button onClick="{{ onReset }}" title="Clear all votes" style="border:none;border-radius:var(--radius-full);padding:9px 16px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;background:transparent;color:rgba(255,255,255,.6);transition:color .15s ease;" style-hover="color:var(--color-error);">Reset</button>
   </div>
@@ -422,6 +421,23 @@ class Component extends DCLogic {
 
   apiBase(sessionId){
     return '/api/sessions/' + encodeURIComponent(sessionId || this.state.sessionId || 'main');
+  }
+
+  assetUrl(file){
+    return '/uploads/' + String(file || '').split('/').map(part => encodeURIComponent(part)).join('/');
+  }
+
+  fallbackAssetUrl(file){
+    const item = this.CHARS.find(c => c.gif === file || c.hero === file);
+    return item ? this.assetUrl(item.hero) : '';
+  }
+
+  imageFallback(file){
+    const fallback = this.fallbackAssetUrl(file);
+    return fallback ? (event) => {
+      if(event.currentTarget.src.endsWith(fallback)) return;
+      event.currentTarget.src = fallback;
+    } : undefined;
   }
 
   adminEmail(){
@@ -621,8 +637,8 @@ class Component extends DCLogic {
       const isLeader = c.id === leaderId && total > 0;
       return {
         ...c,
-        gifPath: 'uploads/' + c.gif,
-        heroPath: 'uploads/' + encodeURIComponent(c.hero),
+        gifPath: this.assetUrl(c.gif),
+        heroPath: this.assetUrl(c.hero),
         heroGlow: c.color + '55',
         count: n,
         pct: total ? Math.round(n/total*100) : 0,
@@ -630,7 +646,7 @@ class Component extends DCLogic {
         isLeader,
         recent: this.state.recent === c.id,
         bobStyle: isLeader ? 'animation:ywBob 2.4s ease-in-out infinite;' : '',
-        gifImg: React.createElement('img', { src:'uploads/'+c.gif, alt:c.name, style:{ width:'150px', height:'138px', objectFit:'contain', objectPosition:'center bottom', display:'block' } }),
+        gifImg: React.createElement('img', { src:this.assetUrl(c.gif), alt:c.name, loading:'eager', decoding:'async', onError:this.imageFallback(c.gif), style:{ width:'150px', height:'138px', objectFit:'contain', objectPosition:'center bottom', display:'block' } }),
       };
     });
 
@@ -668,10 +684,10 @@ class Component extends DCLogic {
     }));
     const selectedChar = chars.find(c => c.id === this.state.selected) || chars[0];
     if(selectedChar){
-      selectedChar.heroImg = React.createElement('img', { src: selectedChar.heroPath, alt: (primaryInfo.name || selectedChar.name), style:{ width:'100%', borderRadius:'18px', display:'block', boxShadow:'0 10px 28px -10px '+selectedChar.color, animation:'ywHeroFloat 4.5s ease-in-out .6s infinite' } });
+      selectedChar.heroImg = React.createElement('img', { src: selectedChar.heroPath, alt: (primaryInfo.name || selectedChar.name), loading:'eager', decoding:'async', onError:this.imageFallback(selectedChar.hero), style:{ width:'100%', borderRadius:'18px', display:'block', boxShadow:'0 10px 28px -10px '+selectedChar.color, animation:'ywHeroFloat 4.5s ease-in-out .6s infinite' } });
     }
     if(secondaryChar){
-      secondaryChar.gifImgSmall = React.createElement('img', { src: secondaryChar.gifPath, alt: (secondaryInfo.name || secondaryChar.name), style:{ maxWidth:'52px', maxHeight:'52px', objectFit:'contain' } });
+      secondaryChar.gifImgSmall = React.createElement('img', { src: secondaryChar.gifPath, alt: (secondaryInfo.name || secondaryChar.name), loading:'eager', decoding:'async', onError:this.imageFallback(secondaryChar.gif), style:{ maxWidth:'52px', maxHeight:'52px', objectFit:'contain' } });
     }
     const url = this.surveyUrl();
     const isDash = this.state.view === 'dashboard';
@@ -745,7 +761,6 @@ class Component extends DCLogic {
       surveyBtnFg: !isDash ? '#1E2327' : 'rgba(255,255,255,.82)',
       goDashboard: () => this.setState({ view:'dashboard' }),
       goSurvey: () => this.setState({ view:'survey', step:'intro', selected:null, role:null, qIndex:0, answers:[], controlsVisible:false, controlsFocused:false }),
-      openSurvey: () => { try { window.open(url, '_blank'); } catch(e){} },
       onStart: () => this.setState({ step:'role' }),
       onAgain: () => this.restart(),
       onReset: () => this.reset(),
