@@ -1,10 +1,10 @@
 import { htmlResponse } from "../../../lib/file-response";
-import { getSession } from "../../../lib/sessions";
+import { ensureSession } from "../../../lib/sessions";
 
 export const runtime = "nodejs";
 
 export async function GET(_request, { params }) {
   const { id } = await params;
-  if (!(await getSession(id))) return new Response("Session not found", { status: 404 });
+  await ensureSession(id);
   return htmlResponse("Live Survey.dc.html", { injectBase: true });
 }

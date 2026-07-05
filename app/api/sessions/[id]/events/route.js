@@ -1,12 +1,11 @@
-import { addListener, getSession, votePayload } from "../../../../../lib/sessions";
+import { addListener, ensureSession, votePayload } from "../../../../../lib/sessions";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(_request, { params }) {
   const { id } = await params;
-  const session = await getSession(id);
-  if (!session) return Response.json({ error: "Session not found" }, { status: 404 });
+  const session = await ensureSession(id);
 
   const encoder = new TextEncoder();
   let cleanup = () => {};

@@ -71,6 +71,8 @@ On Vercel, the framework should be detected as Next.js automatically.
 
 If v0 shows `Could not find a Next.js root layout to patch` or `Script not found "build"`, make sure the project root is the folder that contains `package.json`, `app/layout.js`, and `vercel.json`. Do not set the root directory to `live-survey/`.
 
+If a board link opens as `Not found` in v0, redeploy this latest version. Public board and survey routes now create a missing session shell automatically. For real events, still configure Supabase so sessions created in the admin dashboard persist across serverless instances and deployments.
+
 ## Supabase Storage
 
 For deployed surveys, use Supabase so sessions, votes, and response records survive restarts and work across serverless instances.

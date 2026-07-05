@@ -1,11 +1,10 @@
-import { characterIds, getSession, recordVote, votePayload } from "../../../../../lib/sessions";
+import { characterIds, ensureSession, recordVote, votePayload } from "../../../../../lib/sessions";
 
 export const runtime = "nodejs";
 
 export async function POST(request, { params }) {
   const { id } = await params;
-  const session = await getSession(id);
-  if (!session) return Response.json({ error: "Session not found" }, { status: 404 });
+  const session = await ensureSession(id);
   if (session.stoppedAt) {
     return Response.json({ error: "Session is stopped", ...votePayload(session) }, { status: 409 });
   }
