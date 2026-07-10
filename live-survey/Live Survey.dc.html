@@ -17,7 +17,7 @@
 <script src="_ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/_ds_bundle.js"></script>
 <style>
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;font-family:'Rubik',system-ui,sans-serif;}
+  html,body{margin:0;padding:0;min-height:100%;font-family:'Rubik',system-ui,sans-serif;}
   @keyframes ywBob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-7px);}}
   @keyframes ywRise{0%{opacity:0;transform:translate(-50%,0) scale(.7);}25%{opacity:1;}100%{opacity:0;transform:translate(-50%,-46px) scale(1.1);}}
   @keyframes ywRing{0%{opacity:.55;transform:translateX(-50%) scale(.4);}100%{opacity:0;transform:translateX(-50%) scale(1.7);}}
@@ -150,8 +150,8 @@
 
   <!-- ================= PARTICIPANT SURVEY (mobile-first) ================= -->
   <sc-if value="{{ isSurvey }}" hint-placeholder-val="{{ false }}">
-  <div data-screen-label="Participant Survey" style="min-height:100vh;width:100%;background:var(--color-bg-section);display:flex;justify-content:center;">
-    <div style="width:100%;max-width:452px;height:100vh;background:#fff;display:flex;flex-direction:column;position:relative;box-shadow:0 0 60px rgba(18,49,124,.07);padding-bottom:74px;overflow:hidden;">
+  <div data-screen-label="Participant Survey" style="min-height:100vh;min-height:100svh;width:100%;background:var(--color-bg-section);display:flex;justify-content:center;">
+    <div style="width:100%;max-width:452px;height:100vh;height:100dvh;min-height:100svh;max-height:100dvh;background:#fff;display:flex;flex-direction:column;position:relative;box-shadow:0 0 60px rgba(18,49,124,.07);overflow:hidden;">
 
       <!-- top brand bar -->
       <div style="flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid var(--color-border-light);">
@@ -185,7 +185,7 @@
 
       <!-- INTAKE -->
       <sc-if value="{{ isIntakeActive }}" hint-placeholder-val="{{ false }}">
-      <div style="flex:1;display:flex;flex-direction:column;padding:24px 22px 28px;animation:ywPop .4s ease-out;overflow-y:auto;">
+      <div style="flex:1;display:flex;flex-direction:column;padding:24px 22px 28px;animation:ywPop .4s ease-out;overflow-y:auto;min-height:0;">
         <div style="font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--color-blue-500);">Before we start</div>
         <h2 style="font-size:26px;font-weight:800;line-height:1.12;color:var(--color-smart-blue-500);margin:6px 0 4px;">Tell us about you</h2>
         <div style="display:flex;flex-direction:column;gap:12px;margin-top:18px;">
@@ -211,7 +211,7 @@
 
       <!-- ROLE SELECT -->
       <sc-if value="{{ isRoleActive }}" hint-placeholder-val="{{ false }}">
-      <div style="flex:1;display:flex;flex-direction:column;padding:24px 22px 28px;animation:ywPop .4s ease-out;">
+      <div style="flex:1;display:flex;flex-direction:column;padding:24px 22px 28px;animation:ywPop .4s ease-out;overflow-y:auto;min-height:0;">
         <div style="font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--color-blue-500);">About you</div>
         <h2 style="font-size:26px;font-weight:800;line-height:1.12;color:var(--color-smart-blue-500);margin:6px 0 4px;">What is your current role?</h2>
         <p style="font-size:14px;color:var(--color-text-low);margin:0 0 18px;">Pick one to tailor your questions.</p>
@@ -292,7 +292,7 @@
 
         <!-- backed by: secondary personality -->
         <sc-if value="{{ hasSecondary }}" hint-placeholder-val="{{ false }}">
-        <div style="margin-top:16px;display:flex;align-items:center;gap:13px;background:#fff;border:1.5px solid var(--color-border);border-radius:16px;padding:12px 14px;">
+        <div style="margin-top:16px;display:flex;align-items:flex-start;gap:13px;background:#fff;border:1.5px solid var(--color-border);border-radius:16px;padding:12px 14px;">
           <div style="flex-shrink:0;width:58px;height:58px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:{{ secondaryChar.tint }};">
             {{ secondaryChar.gifImgSmall }}
           </div>
@@ -300,6 +300,7 @@
             <div style="font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-low);">Backed by</div>
             <div style="font-size:18px;font-weight:800;line-height:1.1;color:{{ secondaryChar.color }};margin-top:1px;">{{ secondaryName }}</div>
             <div style="font-size:13px;color:var(--color-text-medium);line-height:1.35;margin-top:2px;">{{ secondarySummary }}</div>
+            <div style="font-size:12px;color:var(--color-text-low);line-height:1.35;margin-top:6px;">{{ secondaryDescription }}</div>
           </div>
         </div>
         </sc-if>
@@ -345,7 +346,7 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;questionText&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;What kind of Teacher are you?&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;ambientDemo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Demo&quot;,&quot;label&quot;:&quot;Ambient fake votes&quot;},&quot;confettiOnVote&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Demo&quot;}}">
 class Component extends DCLogic {
   CHARS = [
-    { id:'tico',     name:'Tico',     archetype:'The Explorer',    tagline:'Turns every lesson into an adventure', color:'#FA606A', tint:'#FFEFF0', gif:'Tico_celebrating.gif',   hero:'Tico.png' },
+    { id:'tico',     name:'Tico',     archetype:'The Explorer',    tagline:'Turns every lesson into an adventure', color:'#FA606A', tint:'#FFEFF0', gif:'Tico_celebration.gif',   hero:'Tico.png' },
     { id:'bobbi',    name:'Bobbi',    archetype:'The Nurturer',    tagline:'Leads with heart and patience',        color:'#9C61DA', tint:'#F5EFFB', gif:'Bobbi_celebration.gif',  hero:'Bobbi.png' },
     { id:'mugsy',    name:'Mugsy',    archetype:'The Creative',    tagline:'Finds art in everything',              color:'#8EC73F', tint:'#F4F9EC', gif:'Mugsy_celebration.gif',  hero:'Mugsy.png' },
     { id:'axel',     name:'Axel',     archetype:'The Motivator',   tagline:'Big energy, even bigger goals',        color:'#4260E6', tint:'#F3F5FF', gif:'Axel_celebration.gif',   hero:'Axel.png' },
@@ -796,6 +797,7 @@ class Component extends DCLogic {
       secondaryChar,
       secondaryName: secondaryInfo.title || secondaryInfo.name || (secondaryChar ? secondaryChar.name : ''),
       secondarySummary: secondaryInfo.subtitle || secondaryInfo.summary || '',
+      secondaryDescription: secondaryInfo.description || '',
       sparkles: this.SPARKLES,
       bars: chars,
       choices: chars,
