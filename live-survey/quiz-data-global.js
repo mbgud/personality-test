@@ -2,7 +2,7 @@
 // Scoring: add each selected option's weight to its character. Highest total = primary,
 // second-highest = secondary ("backed by"). Ties: latest answered among tied characters.
 
-export const RESULTS = {
+const RESULTS = {
   "nova": {
     "character": "Nova",
     "title": "Nova the Star",
@@ -69,7 +69,7 @@ export const RESULTS = {
   }
 };
 
-export const QUIZ = {
+const QUIZ = {
   "teacher": [
     {
       "question": "It's the night before a big lesson and it won't work for three of your students. You:",
@@ -1433,3 +1433,6 @@ export const QUIZ = {
     }
   ]
 };
+
+
+(globalThis.window || globalThis).YW_QUIZ_DATA = { QUIZ, RESULTS };

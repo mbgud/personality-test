@@ -26,6 +26,10 @@ create table if not exists survey_responses (
   session_id text not null references survey_sessions(id) on delete cascade,
   primary_id text not null,
   secondary_id text,
+  respondent_name text,
+  respondent_email text,
+  school text,
+  organization text,
   role text,
   scores jsonb,
   answers jsonb,
@@ -34,6 +38,10 @@ create table if not exists survey_responses (
 
 alter table survey_responses
   add column if not exists secondary_id text,
+  add column if not exists respondent_name text,
+  add column if not exists respondent_email text,
+  add column if not exists school text,
+  add column if not exists organization text,
   add column if not exists role text,
   add column if not exists scores jsonb,
   add column if not exists answers jsonb;
@@ -45,6 +53,10 @@ create or replace function record_survey_vote(
   p_session_id text,
   p_primary_id text,
   p_secondary_id text default null,
+  p_respondent_name text default null,
+  p_respondent_email text default null,
+  p_school text default null,
+  p_organization text default null,
   p_role text default null,
   p_scores jsonb default null,
   p_answers jsonb default null
@@ -74,8 +86,8 @@ begin
     raise exception 'Session not found or stopped';
   end if;
 
-  insert into survey_responses (session_id, primary_id, secondary_id, role, scores, answers)
-  values (p_session_id, p_primary_id, p_secondary_id, p_role, p_scores, p_answers);
+  insert into survey_responses (session_id, primary_id, secondary_id, respondent_name, respondent_email, school, organization, role, scores, answers)
+  values (p_session_id, p_primary_id, p_secondary_id, p_respondent_name, p_respondent_email, p_school, p_organization, p_role, p_scores, p_answers);
 
   return updated_session;
 end;

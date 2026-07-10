@@ -4,16 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script src="./quiz-data-global.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="/ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/tokens/typography.css">
-<link rel="stylesheet" href="/ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/tokens/colors.css">
-<link rel="stylesheet" href="/ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/tokens/spacing.css">
-<link rel="stylesheet" href="/ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/tokens/effects.css">
-<link rel="stylesheet" href="/ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/styles.css">
-<script src="/ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/_ds_bundle.js"></script>
+<link rel="stylesheet" href="_ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/tokens/typography.css">
+<link rel="stylesheet" href="_ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/tokens/colors.css">
+<link rel="stylesheet" href="_ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/tokens/effects.css">
+<link rel="stylesheet" href="_ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/styles.css">
+<script src="_ds/yourway-design-system-a07ddb62-c8a9-4ab8-b7e4-45cc126cdeb0/_ds_bundle.js"></script>
 <style>
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;font-family:'Rubik',system-ui,sans-serif;}
@@ -163,7 +164,7 @@
 
       <sc-if value="{{ isStopped }}" hint-placeholder-val="{{ false }}">
       <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px 28px;animation:ywPop .4s ease-out;">
-        <img src="/uploads/Nova_celebration.gif" onerror="this.onerror=null;this.src='/uploads/Nova.png';" alt="" style="width:118px;height:118px;object-fit:contain;margin-bottom:14px;">
+        <img src="uploads/Nova_celebration.gif" onerror="this.onerror=null;this.src='uploads/Nova.png';" alt="" style="width:118px;height:118px;object-fit:contain;margin-bottom:14px;">
         <div style="font-size:15px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--color-blue-500);">Survey closed</div>
         <h1 style="font-size:34px;font-weight:800;line-height:1.08;color:var(--color-smart-blue-500);text-align:center;margin:8px 0 0;">Thanks for joining</h1>
         <p style="font-size:16px;line-height:1.45;color:var(--color-text-medium);text-align:center;margin:12px 0 0;">This live survey session has ended.</p>
@@ -173,16 +174,36 @@
       <!-- INTRO -->
       <sc-if value="{{ isIntroActive }}" hint-placeholder-val="{{ true }}">
       <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:30px 26px 36px;overflow-y:auto;min-height:0;animation:ywPop .4s ease-out;">
-        <div style="display:flex;justify-content:center;gap:6px;margin-bottom:6px;">
-          <img src="/uploads/Nova_celebration.gif" onerror="this.onerror=null;this.src='/uploads/Nova.png';" alt="" style="width:84px;height:84px;object-fit:contain;">
-          <img src="/uploads/Mugsy_celebration.gif" onerror="this.onerror=null;this.src='/uploads/Mugsy.png';" alt="" style="width:84px;height:84px;object-fit:contain;margin-top:14px;">
-          <img src="/uploads/CherryLu_celebration.gif" onerror="this.onerror=null;this.src='/uploads/Cherry%20Lu.png';" alt="" style="width:84px;height:84px;object-fit:contain;">
-        </div>
-        <div style="font-size:15px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--color-blue-500);text-align:center;">Yourway poll</div>
+        <div style="display:flex;justify-content:center;margin-bottom:8px;">{{ coverGifImgLarge }}</div>
         <h1 style="font-size:38px;font-weight:800;line-height:1.08;letter-spacing:-.02em;color:var(--color-smart-blue-500);text-align:center;margin:8px 0 0;">{{ questionText }}</h1>
-        <p style="font-size:16px;line-height:1.5;color:var(--color-text-medium);text-align:center;margin:14px 0 0;">Tell us your role, then answer <strong>5 quick questions</strong>. We'll match you to your teaching personality.</p>
         <button onClick="{{ onStart }}" style="margin-top:28px;width:100%;padding:17px;border:none;border-radius:var(--radius-md);background:var(--color-blue-500);color:#fff;font-size:18px;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:var(--shadow-sm);transition:background .15s ease;display:flex;align-items:center;justify-content:center;gap:8px;" style-hover="background:var(--color-blue-600);">
           Let's go
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </button>
+      </div>
+      </sc-if>
+
+      <!-- INTAKE -->
+      <sc-if value="{{ isIntakeActive }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;display:flex;flex-direction:column;padding:24px 22px 28px;animation:ywPop .4s ease-out;overflow-y:auto;">
+        <div style="font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--color-blue-500);">Before we start</div>
+        <h2 style="font-size:26px;font-weight:800;line-height:1.12;color:var(--color-smart-blue-500);margin:6px 0 4px;">Tell us about you</h2>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:18px;">
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:800;color:var(--color-smart-blue-500);">
+            Name
+            <input value="{{ intakeName }}" onChange="{{ onIntakeName }}" placeholder="Your name" style="width:100%;border:2px solid var(--color-border);border-radius:12px;padding:14px 15px;font-size:16px;font-family:inherit;color:var(--color-smart-blue-500);background:#fff;">
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:800;color:var(--color-smart-blue-500);">
+            Email
+            <input value="{{ intakeEmail }}" onChange="{{ onIntakeEmail }}" placeholder="you@example.com" type="email" style="width:100%;border:2px solid var(--color-border);border-radius:12px;padding:14px 15px;font-size:16px;font-family:inherit;color:var(--color-smart-blue-500);background:#fff;">
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:800;color:var(--color-smart-blue-500);">
+            School/District/Organization
+            <input value="{{ intakeOrg }}" onChange="{{ onIntakeOrg }}" placeholder="Organization name" style="width:100%;border:2px solid var(--color-border);border-radius:12px;padding:14px 15px;font-size:16px;font-family:inherit;color:var(--color-smart-blue-500);background:#fff;">
+          </label>
+        </div>
+        <button onClick="{{ onIntakeContinue }}" disabled="{{ intakeDisabled }}" style="{{ intakeButtonStyle }}">
+          Continue
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
         </button>
       </div>
@@ -215,6 +236,7 @@
         <div style="height:6px;border-radius:3px;background:var(--color-border-light);overflow:hidden;margin:9px 0 14px;">
           <div style="height:100%;width:{{ progressPct }}%;background:var(--color-blue-500);border-radius:3px;transition:width .35s ease;"></div>
         </div>
+        <div style="font-size:14px;font-weight:800;color:var(--color-blue-500);margin:0 0 8px;">Select one answer only.</div>
         <h2 style="font-size:21px;font-weight:800;line-height:1.25;color:var(--color-smart-blue-500);margin:0 0 14px;">{{ currentQuestion }}</h2>
         <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-bottom:14px;min-height:0;">
           <sc-for list="{{ options }}" as="opt" hint-placeholder-count="8">
@@ -263,7 +285,8 @@
 
             <div style="font-size:15px;font-weight:700;color:var(--color-text-low);margin-top:18px;">You're</div>
             <div style="font-size:32px;font-weight:800;line-height:1.08;color:{{ selectedChar.color }};margin-top:2px;">{{ resultName }}</div>
-            <p style="font-size:16px;color:var(--color-text-medium);margin:8px 0 0;line-height:1.45;">{{ resultSummary }}</p>
+            <p style="font-size:16px;color:var(--color-text-medium);margin:8px 0 0;line-height:1.45;font-weight:700;">{{ resultSummary }}</p>
+            <p style="font-size:15px;color:var(--color-text-medium);margin:10px 0 0;line-height:1.45;">{{ resultDescription }}</p>
           </div>
         </div>
 
@@ -285,7 +308,7 @@
         <div style="margin-top:20px;background:var(--color-bg-section);border-radius:16px;padding:16px 18px;">
           <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--color-blue-700);">
             <span style="width:9px;height:9px;border-radius:50%;background:var(--color-blue-500);animation:ywSpinDot 1.3s ease-in-out infinite;"></span>
-            YOUR VOTE IS LIVE ON THE BOARD
+            YOUR RESULT IS LIVE ON THE BOARD
           </div>
           <div style="display:flex;flex-direction:column;gap:9px;margin-top:13px;">
             <sc-for list="{{ topResults }}" as="r" hint-placeholder-count="4">
@@ -359,7 +382,7 @@ class Component extends DCLogic {
     { id:'instructional_coach', label:'Instructional Coach' },
     { id:'other',               label:'Other' },
   ];
-  state = { view:'dashboard', votes:null, step:'intro', selected:null, recent:null, role:null, qIndex:0, answers:[], primaryId:null, secondaryId:null, quiz:null, results:null, wordIdx:0, pendingIdx:null, publicBaseUrl:null, liveServer:false, controlsVisible:false, controlsFocused:false, sessionId:'main', isStopped:false, stoppedAt:null };
+  state = { view:'dashboard', votes:null, step:'intro', selected:null, recent:null, role:null, qIndex:0, answers:[], primaryId:null, secondaryId:null, quiz:null, results:null, wordIdx:0, pendingIdx:null, publicBaseUrl:null, liveServer:false, controlsVisible:false, controlsFocused:false, sessionId:'main', isStopped:false, stoppedAt:null, intakeName:'', intakeEmail:'', intakeOrg:'' };
 
   componentDidMount(){
     let view = 'dashboard';
@@ -380,9 +403,13 @@ class Component extends DCLogic {
     window.addEventListener('mousedown', this._boardActivity);
     window.addEventListener('touchstart', this._boardActivity);
     window.addEventListener('keydown', this._boardActivity);
-    import('./quiz-data.js')
-      .then(m => this.setState({ quiz:m.QUIZ, results:m.RESULTS }))
-      .catch(() => {});
+    if(window.YW_QUIZ_DATA){
+      this.setState({ quiz:window.YW_QUIZ_DATA.QUIZ, results:window.YW_QUIZ_DATA.RESULTS });
+    } else {
+      import('./quiz-data.js')
+        .then(m => this.setState({ quiz:m.QUIZ, results:m.RESULTS }))
+        .catch(() => {});
+    }
     this._amb = setInterval(() => {
       if(this.props.ambientDemo === false) return;
       if(this.state.view !== 'dashboard') return;
@@ -424,7 +451,8 @@ class Component extends DCLogic {
   }
 
   assetUrl(file){
-    return '/uploads/' + String(file || '').split('/').map(part => encodeURIComponent(part)).join('/');
+    const prefix = location.protocol === 'file:' ? 'uploads/' : '/uploads/';
+    return prefix + String(file || '').split('/').map(part => encodeURIComponent(part)).join('/');
   }
 
   fallbackAssetUrl(file){
@@ -554,6 +582,20 @@ class Component extends DCLogic {
     this.setState({ role:id, step:'question', qIndex:0, answers:[], pendingIdx:null });
   }
 
+  updateIntake(field, event){
+    const value = event && event.target ? event.target.value : '';
+    this.setState({ [field]: value });
+  }
+
+  intakeReady(){
+    return !!(this.state.intakeName.trim() && this.state.intakeEmail.trim() && this.state.intakeOrg.trim());
+  }
+
+  continueFromIntake(){
+    if(!this.intakeReady()) return;
+    this.setState({ step:'role' });
+  }
+
   selectOption(i){
     this.setState({ pendingIdx: i });
   }
@@ -564,7 +606,11 @@ class Component extends DCLogic {
     const qList = (quiz && role) ? quiz[role] : [];
     const curQ = qList[qIndex];
     if(!curQ) return;
-    this.answer(curQ.options[pendingIdx]);
+    this.answer({
+      ...curQ.options[pendingIdx],
+      questionIndex: qIndex + 1,
+      question: curQ.question,
+    });
   }
 
   // opt is the chosen option object { label, char, weight }
@@ -590,8 +636,18 @@ class Component extends DCLogic {
     this.addVote(primary, false, {
       secondaryId: secondary,
       role: this.state.role,
+      name: this.state.intakeName.trim(),
+      email: this.state.intakeEmail.trim(),
+      school: this.state.intakeOrg.trim(),
+      organization: this.state.intakeOrg.trim(),
       scores,
-      answers: answers.map(a => ({ label:a.label, char:a.char, weight:a.weight }))
+      answers: answers.map(a => ({
+        questionIndex: a.questionIndex,
+        question: a.question,
+        answer: a.label,
+        character: a.char,
+        weight: a.weight
+      }))
     }); // dashboard counts only the primary
     this.setState({ answers, scores, primaryId:primary, secondaryId:secondary, selected:primary, step:'done', recent:primary });
     clearTimeout(this._recT);
@@ -607,11 +663,11 @@ class Component extends DCLogic {
     if(this.state.liveServer){
       fetch(this.apiBase() + '/reset', { method:'POST', headers:{ 'X-Admin-Email': this.adminEmail() } })
         .then(r => r.ok ? r.json() : zero)
-        .then(payload => this.setState({ votes: payload.votes || payload, step:'intro', selected:null, recent:null, role:null, qIndex:0, answers:[] }))
+        .then(payload => this.setState({ votes: payload.votes || payload, step:'intro', selected:null, recent:null, role:null, qIndex:0, answers:[], intakeName:'', intakeEmail:'', intakeOrg:'' }))
         .catch(() => {});
     }
     this.saveVotes(zero, this.state.sessionId);
-    this.setState({ votes:zero, step:'intro', selected:null, recent:null, role:null, qIndex:0, answers:[] });
+    this.setState({ votes:zero, step:'intro', selected:null, recent:null, role:null, qIndex:0, answers:[], intakeName:'', intakeEmail:'', intakeOrg:'' });
   }
 
   surveyUrl(){
@@ -696,10 +752,12 @@ class Component extends DCLogic {
       isDashboard: isDash,
       isSurvey: !isDash,
       isIntro: this.state.step === 'intro',
+      isIntake: this.state.step === 'intake',
       isRole: this.state.step === 'role',
       isQuestion: this.state.step === 'question',
       isDone: this.state.step === 'done',
       isIntroActive: this.state.step === 'intro' && !this.state.isStopped,
+      isIntakeActive: this.state.step === 'intake' && !this.state.isStopped,
       isRoleActive: this.state.step === 'role' && !this.state.isStopped,
       isQuestionActive: this.state.step === 'question' && !this.state.isStopped,
       isDoneActive: this.state.step === 'done' && !this.state.isStopped,
@@ -729,12 +787,15 @@ class Component extends DCLogic {
           React.createElement('span', { style:{ position:'relative' } }, r.word)
         );
       })(),
-      resultName: primaryInfo.name || (selectedChar ? selectedChar.name : ''),
-      resultSummary: primaryInfo.summary || (selectedChar ? selectedChar.tagline : ''),
+      coverGifImg: React.createElement('img', { src:this.assetUrl('beans-sunshine.gif'), alt:'', loading:'eager', decoding:'async', style:{ width:'92px', height:'92px', objectFit:'contain', display:'block' } }),
+      coverGifImgLarge: React.createElement('img', { src:this.assetUrl('beans-sunshine.gif'), alt:'', loading:'eager', decoding:'async', style:{ width:'150px', height:'150px', objectFit:'contain', display:'block' } }),
+      resultName: primaryInfo.title || primaryInfo.name || (selectedChar ? selectedChar.name : ''),
+      resultSummary: primaryInfo.subtitle || primaryInfo.summary || (selectedChar ? selectedChar.tagline : ''),
+      resultDescription: primaryInfo.description || '',
       hasSecondary: !!secondaryChar,
       secondaryChar,
-      secondaryName: secondaryInfo.name || (secondaryChar ? secondaryChar.name : ''),
-      secondarySummary: secondaryInfo.summary || '',
+      secondaryName: secondaryInfo.title || secondaryInfo.name || (secondaryChar ? secondaryChar.name : ''),
+      secondarySummary: secondaryInfo.subtitle || secondaryInfo.summary || '',
       sparkles: this.SPARKLES,
       bars: chars,
       choices: chars,
@@ -761,7 +822,19 @@ class Component extends DCLogic {
       surveyBtnFg: !isDash ? '#1E2327' : 'rgba(255,255,255,.82)',
       goDashboard: () => this.setState({ view:'dashboard' }),
       goSurvey: () => this.setState({ view:'survey', step:'intro', selected:null, role:null, qIndex:0, answers:[], controlsVisible:false, controlsFocused:false }),
-      onStart: () => this.setState({ step:'role' }),
+      onStart: () => this.setState({ step:'intake' }),
+      intakeName: this.state.intakeName,
+      intakeEmail: this.state.intakeEmail,
+      intakeOrg: this.state.intakeOrg,
+      intakeDisabled: !this.intakeReady(),
+      intakeButtonStyle: 'margin-top:24px;width:100%;padding:16px;border:none;border-radius:var(--radius-md);font-size:17px;font-weight:700;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s ease,opacity .2s ease;'
+        + (this.intakeReady()
+            ? 'background:var(--color-blue-500);color:#fff;cursor:pointer;box-shadow:var(--shadow-sm);opacity:1;'
+            : 'background:var(--color-border-light);color:var(--color-text-low);cursor:not-allowed;opacity:.85;'),
+      onIntakeName: (event) => this.updateIntake('intakeName', event),
+      onIntakeEmail: (event) => this.updateIntake('intakeEmail', event),
+      onIntakeOrg: (event) => this.updateIntake('intakeOrg', event),
+      onIntakeContinue: () => this.continueFromIntake(),
       onAgain: () => this.restart(),
       onReset: () => this.reset(),
     };

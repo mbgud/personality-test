@@ -178,7 +178,21 @@ PUBLIC_BASE_URL=https://YOUR_DOMAIN npm run start
 When `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are set, session data is stored in Supabase:
 
 - `survey_sessions` stores each dashboard/session, stop state, and current vote totals.
-- `survey_responses` stores each submitted survey as an individual response row, including primary result, backed-by result, role, scores, and answer choices.
+- `survey_responses` stores each submitted survey as an individual response row, including name, email, school, submission date, answers for each question, primary result, backed-by result, role, scores, and survey session.
+
+Admins can fetch saved entries for a session at:
+
+```txt
+/api/admin/sessions/{sessionId}/responses
+```
+
+Include the `X-Admin-Email` header with an `@yourwaylearning.com` email.
+
+For CSV export, use:
+
+```txt
+/api/admin/sessions/{sessionId}/responses?format=csv
+```
 
 If the Supabase variables are not set, the app falls back to server memory for local demos. In-memory data resets when the server restarts and should not be used for production events.
 

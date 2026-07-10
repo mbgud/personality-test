@@ -178,6 +178,33 @@
       sessionsEl.querySelectorAll('[data-delete]').forEach((button) => {
         button.addEventListener('click', () => deleteSession(button.dataset.delete));
       });
+      sessionsEl.querySelectorAll('[data-download]').forEach((button) => {
+        button.addEventListener('click', () => downloadAnswers(button.dataset.download));
+      });
+    }
+
+    async function downloadAnswers(id) {
+      try {
+        const response = await fetch(`/api/admin/sessions/${encodeURIComponent(id)}/responses?format=csv`, {
+          headers: { 'X-Admin-Email': adminEmail() }
+        });
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}));
+          throw new Error(data.error || 'Download failed');
+        }
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `survey-${id}-answers.csv`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+        setStatus('Answers downloaded.');
+      } catch (error) {
+        setStatus(error.message, true);
+      }
     }
 
     function renderSession(session) {
@@ -207,6 +234,7 @@
           <a href="${surveyPath}" target="_blank" rel="noreferrer">Survey: ${session.surveyUrl}</a>
         </div>
         <div class="actions">
+          <button class="secondary" data-download="${session.id}">Download answers</button>
           <button class="secondary" data-stop="${session.id}" ${session.isStopped ? 'disabled' : ''}>Stop session</button>
           <button class="danger" data-delete="${session.id}">Delete</button>
         </div>
